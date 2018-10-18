@@ -1,0 +1,38 @@
+import glob
+import csv
+
+
+# A function for checking if a row has 5 items and the first item is numeric
+def check_row(csv_row):
+    if len(csv_row) == 5:
+        try:
+            int(row[0])
+        except ValueError:
+            return False
+        return True
+    else:
+        return False
+
+
+# Make a dictionary to hold the multiplying factors
+print('Hello.')
+print('If the program is done, this window will close automatically.')
+print('the edited files will be renamed as *_new.csv\n')
+data_dict = {}
+for file in glob.glob('*.csv'):
+        data_factor = float(input('Enter the factor for ' + file.split('.')[0] + ': '))
+        data_dict.update({file: data_factor})
+input('\nCheck if factors are correct and press button to continue...')
+print('working so hard to do the calculation...Please wait...')
+# Read the CSV files
+for file in glob.glob('*.csv'):
+    csv_reader = csv.reader(open(file, 'r'))
+# Write a new one line by line
+    with open(file.split('.')[0]+'_new.csv', 'w', newline='') as new_file:
+        csv_writer = csv.writer(new_file)
+        for row in csv_reader:
+            if check_row(row) == True:
+                row[4] = " " + str(format(float(row[4]) * float(data_dict[file]), 'e'))
+                csv_writer.writerow(row)
+            else:
+                csv_writer.writerow(row)
